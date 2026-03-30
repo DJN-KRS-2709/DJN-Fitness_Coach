@@ -95,12 +95,12 @@ enum MuscleGroup: String, Codable, CaseIterable {
 
     var defaultSets: Int {
         switch self {
-        case .chest: return 4
-        case .back: return 4
-        case .shoulders: return 2
-        case .arms: return 2
-        case .legs: return 2
-        case .core: return 0
+        case .chest:     return 5   // 3× Incline Barbell, 1× Cable Fly, 1× Flat DB
+        case .back:      return 4   // 2× Pull-Up, 1× Pullover, 1× Row
+        case .shoulders: return 4   // 1× OHP, 1× Lateral, 2× Rear Delt
+        case .arms:      return 3   // 1× Curl, 1× Overhead Ext, 1× Pushdown
+        case .legs:      return 2   // 1× RDL, 1× Leg Press
+        case .core:      return 0
         }
     }
 
@@ -185,6 +185,7 @@ final class NutritionLog {
     var wheyG: Double
     var clearWheyG: Double
     var caseinG: Double
+    var collagenG: Double
     var beefOrChickenG: Double
     var eggsCount: Int
     var riceDryG: Double
@@ -193,6 +194,14 @@ final class NutritionLog {
     var darkChocolateG: Double
     var vegetablesG: Double
     var flatWhitesCount: Int
+    var walnutsIncluded: Bool
+
+    // Quick-add extras (restaurant, ice cream, etc.)
+    var extraCalories: Int
+    var extraProteinG: Double
+    var extraCarbsG: Double
+    var extraFatG: Double
+    var extraNotes: String
 
     init(date: Date = Date()) {
         self.date = date
@@ -200,13 +209,14 @@ final class NutritionLog {
         self.proteinG = 0
         self.carbsG = 0
         self.fatG = 0
-        self.sodiumMg = 0
-        self.hydrationL = 0
+        self.sodiumMg = 2500
+        self.hydrationL = 3.0
         self.notes = ""
         self.quarkG = 500
         self.wheyG = 50
         self.clearWheyG = 40
         self.caseinG = 50
+        self.collagenG = 20
         self.beefOrChickenG = 200
         self.eggsCount = 2
         self.riceDryG = 200
@@ -215,6 +225,12 @@ final class NutritionLog {
         self.darkChocolateG = 20
         self.vegetablesG = 350
         self.flatWhitesCount = 3
+        self.walnutsIncluded = true
+        self.extraCalories = 0
+        self.extraProteinG = 0
+        self.extraCarbsG = 0
+        self.extraFatG = 0
+        self.extraNotes = ""
     }
 
     var proteinTarget: ClosedRange<Int> { UserProfile.proteinMin...UserProfile.proteinMax }
@@ -330,22 +346,22 @@ final class SupplementLog {
     init(date: Date = Date(), isAlternateDay: Bool = false) {
         self.date = date
         self.isAlternateDay = isAlternateDay
-        self.omega3 = false
-        self.magnesium = false
-        self.glycine = false
-        self.nad = false
-        self.ashwagandha = false
-        self.urolithinA = false
-        self.vitaminDK2 = false
-        self.zinc = false
-        self.boron = false
-        self.creatine = false
-        self.glutamine = false
-        self.clearWheyDone = false
-        self.wheyDone = false
-        self.caseinDone = false
-        self.methyleneBlue = false
-        self.cuminOil = false
+        self.omega3 = true
+        self.magnesium = true
+        self.glycine = true
+        self.nad = true
+        self.ashwagandha = true
+        self.urolithinA = true
+        self.vitaminDK2 = true
+        self.zinc = true
+        self.boron = true
+        self.creatine = true
+        self.glutamine = true
+        self.clearWheyDone = true
+        self.wheyDone = true
+        self.caseinDone = true
+        self.methyleneBlue = isAlternateDay
+        self.cuminOil = isAlternateDay
     }
 
     var dailyCompletionCount: Int {
@@ -363,6 +379,33 @@ final class SupplementLog {
         let total = isAlternateDay ? dailyTotalCount + 2 : dailyTotalCount
         let done = isAlternateDay ? dailyCompletionCount + alternateDayCompletionCount : dailyCompletionCount
         return total > 0 ? Double(done) / Double(total) : 0
+    }
+}
+
+// MARK: - Progress Video
+
+@Model
+final class ProgressVideo {
+    var date: Date
+    var fileName: String       // stored in app Documents/ProgressVideos/ ("" for photos stored inline)
+    var notes: String
+    var thumbnailData: Data?
+    var mediaType: String      // "video" or "photo"
+    var imageData: Data?       // full-res JPEG for photos
+
+    init(date: Date = Date(), fileName: String, notes: String = "", mediaType: String = "video") {
+        self.date = Calendar.current.startOfDay(for: date)
+        self.fileName = fileName
+        self.notes = notes
+        self.mediaType = mediaType
+    }
+
+    var isPhoto: Bool { mediaType == "photo" }
+
+    var fileURL: URL? {
+        guard !fileName.isEmpty,
+              let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        return docs.appendingPathComponent("ProgressVideos").appendingPathComponent(fileName)
     }
 }
 

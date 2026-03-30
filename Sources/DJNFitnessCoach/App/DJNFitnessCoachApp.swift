@@ -8,6 +8,9 @@ struct DJNFitnessCoachApp: App {
             ContentView()
                 .modelContainer(AppModelContainer.shared)
                 .preferredColorScheme(.dark)
+                .task {
+                    await HealthKitService.shared.requestAuthorization()
+                }
         }
     }
 }
@@ -23,12 +26,22 @@ enum AppModelContainer {
             RecoveryLog.self,
             SupplementLog.self,
             BodyMetric.self,
+            ProgressVideo.self,
         ])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
+            // Migration failed — wipe store and recreate cleanly
+            let storeURL = config.url
+            try? FileManager.default.removeItem(at: storeURL)
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("wal"))
+            try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("shm"))
+            do {
+                return try ModelContainer(for: schema, configurations: [config])
+            } catch {
+                fatalError("Failed to create ModelContainer after reset: \(error)")
+            }
         }
     }()
 }

@@ -5,6 +5,7 @@ struct CardioLogView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
+    var initialType: SessionType = .cardioVO2
     @State private var selectedType: SessionType = .cardioVO2
     @State private var durationMinutes: Int = 45
     @State private var avgHR: Int = 0
@@ -54,6 +55,7 @@ struct CardioLogView: View {
                 }
             }
         }
+        .onAppear { selectedType = initialType }
     }
 
     // MARK: - Type Selector

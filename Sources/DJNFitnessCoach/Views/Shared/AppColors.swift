@@ -129,8 +129,8 @@ struct MacroRingView: View {
 struct StatRow: View {
     let label: String
     let value: String
-    var valueColor: Color = AppColors.textPrimary
     var icon: String? = nil
+    var valueColor: Color = AppColors.textPrimary
 
     var body: some View {
         HStack {

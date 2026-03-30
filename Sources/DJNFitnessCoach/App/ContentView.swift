@@ -5,18 +5,18 @@ struct ContentView: View {
 
     enum Tab: String, CaseIterable {
         case dashboard = "Dashboard"
-        case workout = "Workout"
-        case nutrition = "Nutrition"
-        case supplements = "Supplements"
+        case coach = "Coach"
         case progress = "Progress"
+        case nutrition = "Nutrition"
+        case more = "More"
 
         var icon: String {
             switch self {
             case .dashboard: return "house.fill"
-            case .workout: return "figure.strengthtraining.traditional"
+            case .coach:     return "brain.head.profile"
+            case .progress:  return "chart.line.uptrend.xyaxis"
             case .nutrition: return "fork.knife"
-            case .supplements: return "pill.fill"
-            case .progress: return "chart.line.uptrend.xyaxis"
+            case .more:      return "ellipsis.circle.fill"
             }
         }
     }
@@ -27,21 +27,21 @@ struct ContentView: View {
                 .tabItem { Label("Dashboard", systemImage: Tab.dashboard.icon) }
                 .tag(Tab.dashboard)
 
-            WorkoutHubView()
-                .tabItem { Label("Workout", systemImage: Tab.workout.icon) }
-                .tag(Tab.workout)
+            CoachView()
+                .tabItem { Label("Coach", systemImage: Tab.coach.icon) }
+                .tag(Tab.coach)
+
+            ProgressView()
+                .tabItem { Label("Progress", systemImage: Tab.progress.icon) }
+                .tag(Tab.progress)
 
             NutritionView()
                 .tabItem { Label("Nutrition", systemImage: Tab.nutrition.icon) }
                 .tag(Tab.nutrition)
 
-            SupplementsView()
-                .tabItem { Label("Supplements", systemImage: Tab.supplements.icon) }
-                .tag(Tab.supplements)
-
-            ProgressView()
-                .tabItem { Label("Progress", systemImage: Tab.progress.icon) }
-                .tag(Tab.progress)
+            MoreView()
+                .tabItem { Label("More", systemImage: Tab.more.icon) }
+                .tag(Tab.more)
         }
         .tint(AppColors.accent)
     }

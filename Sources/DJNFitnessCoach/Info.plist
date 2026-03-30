@@ -24,6 +24,12 @@
 	<string>DJN Coach reads workout and health data to enhance your training insights.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>DJN Coach writes workout data to Apple Health.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>DJN Coach uses the microphone for voice input to your AI coach.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>DJN Coach accesses your photo library to import progress videos.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>DJN Coach uses speech recognition to convert your voice to text for the AI coach.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

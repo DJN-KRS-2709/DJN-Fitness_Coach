@@ -1,12 +1,15 @@
 import SwiftUI
 import SwiftData
 import Charts
+import UIKit
 
 struct ProgressView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var bodyMetrics: [BodyMetric] = []
     @State private var recentLogs: [DailyLog] = []
     @State private var selectedPeriod: Period = .month
+    @State private var coachHandoffImage: UIImage? = nil
+    @State private var navigateToCoach = false
 
     enum Period: String, CaseIterable {
         case week = "7D"
@@ -21,6 +24,7 @@ struct ProgressView: View {
                 ScrollView {
                     VStack(spacing: 20) {
                         periodPicker
+                        videosEntryCard
                         trainingConsistencyCard
                         weightChartCard
                         weeklyVolumeCard
@@ -38,6 +42,49 @@ struct ProgressView: View {
         }
         .onAppear { loadData() }
         .onChange(of: selectedPeriod) { _, _ in loadData() }
+    }
+
+    // MARK: - Videos Entry
+
+    private var videosEntryCard: some View {
+        NavigationLink(destination: ProgressMediaView(onSendToCoach: { img in
+            coachHandoffImage = img
+            navigateToCoach = true
+        })) {
+            AppCard {
+                HStack(spacing: 14) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(AppColors.purple.opacity(0.15))
+                            .frame(width: 44, height: 44)
+                        Image(systemName: "photo.stack.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(AppColors.purple)
+                    }
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Photos & Videos")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(AppColors.textPrimary)
+                        Text("Track visual progress — send photos to AI coach")
+                            .font(.system(size: 12))
+                            .foregroundColor(AppColors.textSecondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(AppColors.textSecondary)
+                }
+            }
+        }
+        // Hidden coach navigation trigger
+        .background(
+            NavigationLink(
+                destination: CoachView(pendingImage: coachHandoffImage),
+                isActive: $navigateToCoach,
+                label: { EmptyView() }
+            )
+            .hidden()
+        )
     }
 
     // MARK: - Period Picker

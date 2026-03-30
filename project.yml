@@ -13,8 +13,9 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: com.djn.fitness-coach
     MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "84PRTN95F8"
     CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_ENTITLEMENTS: Sources/DJNFitnessCoach/DJNFitnessCoach.entitlements
 
 targets:
   DJNFitnessCoach:
@@ -35,6 +36,9 @@ targets:
           UISceneConfigurations: {}
         NSHealthShareUsageDescription: "DJN Coach reads workout and health data to enhance your training insights."
         NSHealthUpdateUsageDescription: "DJN Coach writes workout data to Apple Health."
+        NSMicrophoneUsageDescription: "DJN Coach uses the microphone for voice input to your AI coach."
+        NSSpeechRecognitionUsageDescription: "DJN Coach uses speech recognition to convert your voice to text for the AI coach."
+        NSPhotoLibraryUsageDescription: "DJN Coach accesses your photo library to import progress videos."
         UIRequiredDeviceCapabilities:
           - armv7
         UISupportedInterfaceOrientations:

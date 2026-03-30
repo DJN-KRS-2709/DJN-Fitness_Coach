@@ -152,6 +152,26 @@ class DataService: ObservableObject {
         )
     }
 
+    // MARK: - Exercise History
+
+    /// Returns up to `limit` past sessions containing sets for `exerciseName`, newest first.
+    func fetchExerciseSessions(exerciseName: String, limit: Int = 20) -> [(date: Date, sets: [LiftingSet])] {
+        let descriptor = FetchDescriptor<WorkoutSession>(
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        let allSessions = (try? modelContext.fetch(descriptor)) ?? []
+        var results: [(date: Date, sets: [LiftingSet])] = []
+        for session in allSessions {
+            let matching = session.sets
+                .filter { $0.exerciseName == exerciseName }
+                .sorted { $0.setNumber < $1.setNumber }
+            guard !matching.isEmpty else { continue }
+            results.append((session.date, matching))
+            if results.count >= limit { break }
+        }
+        return results
+    }
+
     // MARK: - Helpers
 
     private func isAlternateDay(for date: Date) -> Bool {

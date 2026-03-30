@@ -96,7 +96,7 @@ struct RuleEngine {
     // MARK: - Logic Helpers
 
     private static func shouldLift(previous: SessionType?) -> Bool {
-        guard let prev = previous else { return true }
+        guard let prev = previous else { return false }  // no history → start with cardio
         return prev.isCardio || prev == .rest || prev == .recovery
     }
 

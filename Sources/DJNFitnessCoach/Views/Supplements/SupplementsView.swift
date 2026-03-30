@@ -303,32 +303,34 @@ struct SupplementsView: View {
     // MARK: - Toggle Row
 
     private func suppToggleRow(label: String, detail: String, icon: String, color: Color, isOn: Binding<Bool>) -> some View {
-        HStack(spacing: 12) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(color.opacity(isOn.wrappedValue ? 0.2 : 0.06))
-                    .frame(width: 36, height: 36)
-                Image(systemName: icon)
-                    .font(.system(size: 14))
-                    .foregroundColor(isOn.wrappedValue ? color : color.opacity(0.4))
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(color.opacity(isOn.wrappedValue ? 0.2 : 0.06))
+                        .frame(width: 36, height: 36)
+                    Image(systemName: icon)
+                        .font(.system(size: 14))
+                        .foregroundColor(isOn.wrappedValue ? color : color.opacity(0.4))
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(label)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(isOn.wrappedValue ? AppColors.textPrimary : AppColors.textSecondary)
+                    Text(detail)
+                        .font(.system(size: 11))
+                        .foregroundColor(AppColors.textSecondary)
+                }
+                Spacer()
+                Toggle("", isOn: isOn)
+                    .labelsHidden()
+                    .tint(color)
             }
-            VStack(alignment: .leading, spacing: 2) {
-                Text(label)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(isOn.wrappedValue ? AppColors.textPrimary : AppColors.textSecondary)
-                Text(detail)
-                    .font(.system(size: 11))
-                    .foregroundColor(AppColors.textSecondary)
-            }
-            Spacer()
-            Toggle("", isOn: isOn)
-                .labelsHidden()
-                .tint(color)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(isOn.wrappedValue ? color.opacity(0.04) : Color.clear)
+            Divider().background(AppColors.cardBorder).padding(.leading, 64)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
-        .background(isOn.wrappedValue ? color.opacity(0.04) : Color.clear)
-        Divider().background(AppColors.cardBorder).padding(.leading, 64)
     }
 
     // MARK: - Helpers

@@ -9,6 +9,7 @@ struct RecoveryCheckInView: View {
 
     @State private var recovery: RecoveryLog?
     @State private var sleepHours: Double = 7.5
+    @State private var isSyncingHealth = false
     @State private var sleepQuality: Int = 4
     @State private var rhr: Int = 0
     @State private var energyScore: Int = 4
@@ -45,6 +46,18 @@ struct RecoveryCheckInView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }.foregroundColor(AppColors.textSecondary)
+                }
+                ToolbarItem(placement: .principal) {
+                    if HealthKitService.shared.isAuthorized {
+                        Button {
+                            Task { await syncFromHealth() }
+                        } label: {
+                            Label(isSyncingHealth ? "Syncing…" : "Sync Health", systemImage: "heart.text.square.fill")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(AppColors.red)
+                        }
+                        .disabled(isSyncingHealth)
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { saveAndDismiss() }
@@ -265,6 +278,19 @@ struct RecoveryCheckInView: View {
         case 2...3: return .moderate
         default: return .low
         }
+    }
+
+    // MARK: - Health Sync
+
+    private func syncFromHealth() async {
+        isSyncingHealth = true
+        let hk = HealthKitService.shared
+        await hk.refreshSnapshot()
+        let h = hk.snapshot
+        if let sl = h.sleepHours { sleepHours = min(10, max(3, sl)) }
+        if let rhrVal = h.restingHR { rhr = Int(rhrVal) }
+        if let st = h.steps { steps = st }
+        isSyncingHealth = false
     }
 
     // MARK: - Load / Save
