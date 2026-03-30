@@ -646,6 +646,8 @@ struct DashboardView: View {
         if n.wheyG == 0       { n.wheyG = 50 }
         if n.clearWheyG == 0  { n.clearWheyG = 40 }
         if n.caseinG == 0     { n.caseinG = 50 }
+        if n.collagenG == 0   { n.collagenG = 20 }
+        if n.proteinMilkMl == 0 { n.proteinMilkMl = 333 }
         if n.beefOrChickenG == 0 { n.beefOrChickenG = 200 }
         if n.eggsCount == 0   { n.eggsCount = 2 }
         if n.riceDryG == 0    { n.riceDryG = 200 }

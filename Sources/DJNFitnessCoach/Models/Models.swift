@@ -186,6 +186,7 @@ final class NutritionLog {
     var clearWheyG: Double
     var caseinG: Double
     var collagenG: Double
+    var proteinMilkMl: Double
     var beefOrChickenG: Double
     var eggsCount: Int
     var riceDryG: Double
@@ -217,6 +218,7 @@ final class NutritionLog {
         self.clearWheyG = 40
         self.caseinG = 50
         self.collagenG = 20
+        self.proteinMilkMl = 333
         self.beefOrChickenG = 200
         self.eggsCount = 2
         self.riceDryG = 200

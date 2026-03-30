@@ -190,6 +190,13 @@ struct NutritionView: View {
                         kcalEstimate: { Int($0 * 3.7) }
                     )
                     foodWheelRow(
+                        label: "Schwarzwälder Proteinmilch",
+                        value: Binding(get: { n.proteinMilkMl }, set: { n.proteinMilkMl = $0; recalculate(n) }),
+                        options: [167, 250, 333, 500, 666],
+                        unit: "ml", defaultValue: 333,
+                        kcalEstimate: { Int($0 * 0.5) }
+                    )
+                    foodWheelRow(
                         label: "Beef / Chicken",
                         value: Binding(get: { n.beefOrChickenG }, set: { n.beefOrChickenG = $0; recalculate(n) }),
                         options: [100, 150, 200, 250, 300, 350, 400, 450, 500],
@@ -396,6 +403,7 @@ struct NutritionView: View {
         protein += (n.clearWheyG / 34) * 22; carbs += (n.clearWheyG / 34) * 3; kcal += (n.clearWheyG / 34) * 100
         protein += (n.caseinG / 30) * 24; carbs += (n.caseinG / 30) * 3; fat += (n.caseinG / 30) * 1; kcal += (n.caseinG / 30) * 116
         protein += n.collagenG * 0.9; kcal += n.collagenG * 3.7
+        protein += n.proteinMilkMl * 0.08; carbs += n.proteinMilkMl * 0.04; fat += n.proteinMilkMl * 0.01; kcal += n.proteinMilkMl * 0.5
         protein += n.beefOrChickenG * 0.26; fat += n.beefOrChickenG * 0.04; kcal += n.beefOrChickenG * 1.45
         protein += Double(n.eggsCount) * 6; carbs += Double(n.eggsCount) * 0.6; fat += Double(n.eggsCount) * 5; kcal += Double(n.eggsCount) * 70
         protein += n.riceDryG * 0.07;  carbs += n.riceDryG * 0.78;  fat += n.riceDryG * 0.007; kcal += n.riceDryG * 3.5
@@ -417,7 +425,7 @@ struct NutritionView: View {
     }
 
     private func resetToDefaults(_ n: NutritionLog) {
-        n.quarkG = 500; n.wheyG = 50; n.clearWheyG = 40; n.caseinG = 50; n.collagenG = 20
+        n.quarkG = 500; n.wheyG = 50; n.clearWheyG = 40; n.caseinG = 50; n.collagenG = 20; n.proteinMilkMl = 333
         n.beefOrChickenG = 200; n.eggsCount = 2; n.riceDryG = 200
         n.fruitPortions = 1; n.dates = 1; n.darkChocolateG = 20
         n.vegetablesG = 350; n.flatWhitesCount = 3; n.walnutsIncluded = true
