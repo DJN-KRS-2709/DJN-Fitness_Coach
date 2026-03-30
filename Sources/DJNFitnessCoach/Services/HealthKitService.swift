@@ -134,9 +134,6 @@ class HealthKitService: ObservableObject {
 
         activityObserverQuery = query
         store.execute(query)
-
-        // Background delivery: wake the app even when not in foreground
-        store.enableBackgroundDelivery(for: type, frequency: .immediate) { _, _ in }
     }
 
     /// Re-fetches only active + basal calories for today. Throttled to at most
