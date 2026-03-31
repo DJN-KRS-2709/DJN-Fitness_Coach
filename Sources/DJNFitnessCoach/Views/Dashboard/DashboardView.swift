@@ -37,16 +37,16 @@ struct DashboardView: View {
                 }
             }
             .navigationBarHidden(true)
-            .sheet(isPresented: $showingWorkoutLog) {
+            .sheet(isPresented: $showingWorkoutLog, onDismiss: { refreshData() }) {
                 WorkoutLogView(planSets: WorkoutPlanService.shared.templateSets())
             }
-            .sheet(isPresented: $showingCardioLog) {
+            .sheet(isPresented: $showingCardioLog, onDismiss: { refreshData() }) {
                 CardioLogView(initialType: selectedCardioType)
             }
             .sheet(isPresented: $showingCardioPicker) {
                 cardioPickerSheet
             }
-            .sheet(isPresented: $showingBodyMetric) {
+            .sheet(isPresented: $showingBodyMetric, onDismiss: { refreshData() }) {
                 if let ds = dataService {
                     BodyMetricEntryView(dataService: ds)
                 }
@@ -241,15 +241,15 @@ struct DashboardView: View {
     }
 
     private func todayDoneRow(_ rec: RuleEngine.SessionRecommendation) -> some View {
-        // Use what was ACTUALLY completed, not the recommendation
+        // Workout (lifting) takes priority — check it first
         let actualType: SessionType
         let subtitle: String
-        if let c = todayLog?.cardio, c.completed {
-            actualType = c.type
-            subtitle = "\(c.type.rawValue) · \(c.durationMinutes) min"
-        } else if let w = todayLog?.workout, w.completed {
+        if let w = todayLog?.workout, w.completed {
             actualType = .lifting
             subtitle = "\(w.totalSets) sets · \(w.durationMinutes) min · RPE \(w.perceivedExertion)"
+        } else if let c = todayLog?.cardio, c.completed {
+            actualType = c.type
+            subtitle = "\(c.type.rawValue) · \(c.durationMinutes) min"
         } else {
             actualType = rec.sessionType
             subtitle = ""
@@ -595,14 +595,10 @@ struct DashboardView: View {
     }
 
     private var tomorrowLabel: String? {
-        // Base on what was ACTUALLY completed today (most accurate)
-        if let c = todayLog?.cardio, c.completed {
-            return "Lifting"
-        }
-        if let w = todayLog?.workout, w.completed {
-            return "Cardio"
-        }
-        // Nothing done yet — opposite of today's recommendation
+        // Workout (lifting) takes priority over cardio
+        if let w = todayLog?.workout, w.completed { return "Cardio" }
+        if let c = todayLog?.cardio, c.completed  { return "Lifting" }
+        // Nothing logged yet — opposite of today's recommendation
         guard let rec = recommendation else { return nil }
         return rec.sessionType.isCardio ? "Lifting" : "Cardio"
     }
