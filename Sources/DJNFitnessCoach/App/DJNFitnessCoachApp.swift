@@ -32,15 +32,18 @@ enum AppModelContainer {
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            // Migration failed — wipe store and recreate cleanly
+            // Only wipe if the store is genuinely corrupt (not a routine migration).
+            // New properties with schema-level defaults migrate automatically — no wipe needed.
             let storeURL = config.url
+            let isCorrupt = (error as NSError).domain == NSCocoaErrorDomain
+            guard isCorrupt else { fatalError("ModelContainer failed unexpectedly: \(error)") }
             try? FileManager.default.removeItem(at: storeURL)
             try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("wal"))
             try? FileManager.default.removeItem(at: storeURL.appendingPathExtension("shm"))
             do {
                 return try ModelContainer(for: schema, configurations: [config])
             } catch {
-                fatalError("Failed to create ModelContainer after reset: \(error)")
+                fatalError("Failed to create ModelContainer after corruption reset: \(error)")
             }
         }
     }()

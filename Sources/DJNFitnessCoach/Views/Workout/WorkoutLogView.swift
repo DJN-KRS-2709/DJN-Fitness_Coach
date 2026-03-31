@@ -396,6 +396,8 @@ struct WorkoutLogView: View {
         }
         todayLog.sessionType = .lifting
         ds.save()
+        // Persist weights so next session pre-populates from here
+        LastWeightsStore.shared.persist(sets)
         dismiss()
     }
 }
@@ -452,7 +454,11 @@ struct AddSetCard: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
                             ForEach(defaultExercises[muscle] ?? [], id: \.self) { ex in
-                                Button { exercise = ex } label: {
+                                Button {
+                                    exercise = ex
+                                    let lastW = LastWeightsStore.shared.weight(for: ex, setNumber: setNumberForCurrentGroup)
+                                    if lastW > 0 { weight = Double(Int(lastW.rounded())) }
+                                } label: {
                                     Text(ex)
                                         .font(.system(size: 12))
                                         .foregroundColor(AppColors.textSecondary)

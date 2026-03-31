@@ -185,8 +185,8 @@ final class NutritionLog {
     var wheyG: Double
     var clearWheyG: Double
     var caseinG: Double
-    var collagenG: Double
-    var proteinMilkMl: Double
+    var collagenG: Double = 0       // default enables safe SwiftData migration
+    var proteinMilkMl: Double = 0  // default enables safe SwiftData migration
     var beefOrChickenG: Double
     var eggsCount: Int
     var riceDryG: Double

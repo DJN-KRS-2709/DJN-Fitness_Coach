@@ -61,19 +61,22 @@ final class WorkoutPlanService: ObservableObject {
     /// Generates a pre-populated set list for the current phase.
     func templateSets() -> [WorkoutSetEntry] {
         let phase = currentPhase
+        let ws = LastWeightsStore.shared
         var entries: [WorkoutSetEntry] = []
         for exercise in WorkoutPlan.exercises {
             let reps   = phase == 1 ? exercise.repsPhase1   : exercise.repsPhase2
             let fail   = phase == 1 ? exercise.failurePhase1 : exercise.failurePhase2
             let rpe    = phase == 1 ? 8 : 9
             for i in 0..<exercise.setCount {
-                let isLast = i == exercise.setCount - 1
+                let setNumber = i + 1
+                let isLast    = i == exercise.setCount - 1
+                let lastWeight = ws.weight(for: exercise.exerciseName, setNumber: setNumber)
                 entries.append(WorkoutSetEntry(
                     muscleGroup: exercise.muscleGroup,
                     exerciseName: exercise.exerciseName,
-                    setNumber: i + 1,
+                    setNumber: setNumber,
                     reps: reps,
-                    weight: 0,
+                    weight: lastWeight,
                     toFailure: isLast && fail,
                     rpe: rpe
                 ))

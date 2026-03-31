@@ -33,6 +33,7 @@
 		DEC1B9FA9C4D117367AB9330 /* CoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4FE6E7427F3AECE1C3EBCE /* CoachView.swift */; };
 		DF07B1B0318304A8095AE188 /* ProgressVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113B46DDCBDFBFBA7CCCC934 /* ProgressVideosView.swift */; };
 		E04277A4759345119E16D379 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A62237CD38B10ADDAADDCC /* ProgressView.swift */; };
+		E69B5C1C9833DC8E89532BD6 /* LastWeightsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF58B848E5A6D1272DDF29B /* LastWeightsStore.swift */; };
 		E8154D3E96E0A5C10A769852 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C1A7F8B99C5622D5DD5EDE /* DataService.swift */; };
 		EA8836CC9C4CB242B366F49B /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93E551B0A60354FC0FE10A /* AppColors.swift */; };
 		F8041D284CFB8739727FA368 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A57F59D880EE599CFC6DA6D7 /* Assets.xcassets */; };
@@ -42,12 +43,13 @@
 /* Begin PBXFileReference section */
 		030B2058341D102D46E14FDB /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		0AF71BA3BC94269852807918 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0D42A4A9E319640D1EF1237B /* DJNFitnessCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DJNFitnessCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D42A4A9E319640D1EF1237B /* DJNFitnessCoach.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DJNFitnessCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F7FBBA30CF803DABCBEC9B5 /* WorkoutLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutLogView.swift; sourceTree = "<group>"; };
 		113B46DDCBDFBFBA7CCCC934 /* ProgressVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressVideosView.swift; sourceTree = "<group>"; };
 		194979483B68AC235B04A138 /* HealthMetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetricsView.swift; sourceTree = "<group>"; };
 		1DFFE3AFE6A8609D4F787A90 /* SupplementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementsView.swift; sourceTree = "<group>"; };
 		295E3B485EAD9A03DAD98037 /* WorkoutHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHubView.swift; sourceTree = "<group>"; };
+		2FF58B848E5A6D1272DDF29B /* LastWeightsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastWeightsStore.swift; sourceTree = "<group>"; };
 		3BBE4516703C845DF6C114D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3BC6DB1514C1474AC934857A /* NutritionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionView.swift; sourceTree = "<group>"; };
 		478D6C6893403E0E1E378EC9 /* RuleEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleEngine.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				F4D6AC89CF6F9E8E4FA0BB39 /* AnthropicService.swift */,
 				E6C1A7F8B99C5622D5DD5EDE /* DataService.swift */,
 				C5A4AAA686FB3940479896A6 /* HealthKitService.swift */,
+				2FF58B848E5A6D1272DDF29B /* LastWeightsStore.swift */,
 				DBBA46A362FA2932AA91BF78 /* RAGService.swift */,
 				478D6C6893403E0E1E378EC9 /* RuleEngine.swift */,
 				516D0F857CB6369C0C562FCB /* SpeechRecognizer.swift */,
@@ -290,6 +293,7 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					D71E0887AFAE6630436F0BC0 = {
+						DevelopmentTeam = 84PRTN95F8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -343,6 +347,7 @@
 				8DFE4B9CC5677A836394926E /* ExerciseHistoryView.swift in Sources */,
 				32243141DC93B3AB456FE0DC /* HealthKitService.swift in Sources */,
 				6F04175182D8F3959A20D5BA /* HealthMetricsView.swift in Sources */,
+				E69B5C1C9833DC8E89532BD6 /* LastWeightsStore.swift in Sources */,
 				C64016E40F2BFA6C05D621A3 /* Models.swift in Sources */,
 				10668CE8F2C18F5FD556D6B2 /* MoreView.swift in Sources */,
 				974E05DF9D580DCD97F0D32B /* NutritionView.swift in Sources */,
@@ -369,7 +374,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2ZW7R334VQ;
 				INFOPLIST_FILE = Sources/DJNFitnessCoach/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,7 +520,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2ZW7R334VQ;
 				INFOPLIST_FILE = Sources/DJNFitnessCoach/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
